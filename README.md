@@ -1,7 +1,7 @@
 # RL-Adventure
 Reinforcement Learning Adventure
 
-## Into
+## Intro
 
 In this little project, I aim at summarizing the Reinforcement Learning algorthm, step by step. The motivation is to organize what I have learned from Udacity Deep Reinforcement Learning Nanodegree and goes beyond that. Here I will write blogs and experiment codes for important papers in this area, starting with the recommandation in the Nanodegree.
 
