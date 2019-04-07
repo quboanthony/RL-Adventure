@@ -13,15 +13,16 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
 ## Recent Plan and Progress (up to 2019-04-07)
 
 - Blogs writing (10% completed)
-- Reinforcement Learning Intro (blogs 50% completed)
+- [Reinforcement Learning Intro](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_1.md) (blogs 30% completed)
 - Dynamic Progrmming (0% completed)
 - Classic
-  - Monte Carlo method (workable codes implemented, Blogs 0% completed)
-  - Temporal-Difference methods (workable codes implemented, Blogs 0% completed)
+  - [Monte Carlo method](https://github.com/quboanthony/RL-Adventure/tree/master/monte-carlo) (workable codes implemented, Blogs 0% completed)
+  - [Temporal-Difference methods](https://github.com/quboanthony/RL-Adventure/tree/master/temporal-difference) (workable codes implemented, Blogs 0% completed)
   - RL in Continous Space (Blogs 0% completed)
 - Value-based methods
-  - Classic DQN (workable codes implemented, blogs 0% completed)
-  - Double-DQN (workable codes implemented, blogs 0% completed)
+  - [Classic DQN](https://github.com/quboanthony/RL-Adventure/tree/master/p1_navigation) (workable codes implemented, blogs 0% completed)
+  - [Double-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-double_dqn
+) (workable codes implemented, blogs 0% completed)
   - [Prioritized Replay DDQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-Prioritized%20Experience%20Replay%20ddqn) (workable codes implemented, blogs completed)
   - Dueling-DQN (reading paper)
 - Policy-based methods

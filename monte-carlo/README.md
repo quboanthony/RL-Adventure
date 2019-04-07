@@ -2,4 +2,4 @@
 
 ### Instructions
 
-Follow the instructions in `Monte_Carlo.ipynb` to write your own implementations of many Monte Carlo methods!  The corresponding solutions can be found in `Monte_Carlo_Solution.ipynb`.  
+In `Monte_Carlo.ipynb`, the MC methods codes are implemented based on the BlackjackEnv in gym. We can train the agent to play backjack and find the optimum policy.
