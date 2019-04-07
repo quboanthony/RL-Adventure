@@ -12,8 +12,8 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
 
 ## Recent Progress (up to 2019-04-02)
 
-- Blogs writing (5% completed)
+- Blogs writing (10% completed)
 - Classic DQN (workable codes implemented, blogs 0% completed)
 - Double-DQN (workable codes implemented, blogs 0% completed)
-- Prioritized Replay DDQN (workable codes implemented, blogs 50% completed)
+- Prioritized Replay DDQN (workable codes implemented, blogs completed)
 - Dueling-DQN (reading paper)
