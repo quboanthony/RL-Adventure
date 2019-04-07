@@ -2,6 +2,7 @@
 
 ### Instructions
 ![alt text](images/matengai-of-kuniga-coast-in-oki-island-shimane-pref600.jpg "CliffWalking")
+
 In `Temporal_Difference.ipynb`, several TD methods(Sarsa, Q-learning, Expected Sarsa) are implemented based on the [CliffWalking](https://github.com/openai/gym/blob/master/gym/envs/toy_text/cliffwalking.py) environment in gym. In the CliffWalking environment, the agent navigates a 4x12 gridworld.
 
 ### Algorthms
