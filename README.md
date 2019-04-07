@@ -10,6 +10,22 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
 ## Refences
 **Notice** that many of my codes will be referencing the Nanodegree contents and other excellent implementations on Github.
 
+- [Udacity DRLND course](https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893)
+
+- ['SuttonBartoIPRLBook2ndEd'](https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf)
+
+- [UCL Deep Reinforcement Learning course](http://rail.eecs.berkeley.edu/deeprlcourse/)
+
+- the excellent algorithm implementations like [ShangtongZhang](https://github.com/ShangtongZhang/DeepRL) and [rlcode](https://github.com/rlcode/reinforcement-learning) on Github.
+
+- [Pinard's blog (in Chinese)](https://www.cnblogs.com/pinard/category/1254674.html)
+
+- [Andrej Karpathy blog](karpathy.github.io/2016/05/31/rl/)
+
+- [icml deep_rl_tutorial](https://icml.cc/2016/tutorials/deep_rl_tutorial.pdf)
+
+
+
 ## Recent Plan and Progress (up to 2019-04-07)
 
 - Blogs writing (10% completed)
@@ -24,5 +40,5 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
   - [Double-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-double_dqn
 ) (workable codes implemented, blogs 0% completed)
   - [Prioritized Replay DDQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-Prioritized%20Experience%20Replay%20ddqn) (workable codes implemented, blogs completed)
-  - Dueling-DQN (reading paper)
+  - [Dueling-DQN]() (workable codes implemented, blogs completed)
 - Policy-based methods
