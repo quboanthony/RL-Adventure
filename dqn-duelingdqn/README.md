@@ -51,11 +51,7 @@ In order to train the againt,execute the cells in sequences after "4.It's Your T
 
 ### Description
 
-Prioritized Experience replay buffer improves the replay mechanism in the DQN algorthm. A detialed introduction of this idea is summarized in my [blog](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_8.md).
-
-In this project, based on the 'banana navigation' environment and the former ddqn codes, we added the PER codes, now our agent can learn with prefer from its memory.
-
-The result shows that the learning curve at the beginning indeed accelate, comparing to the NatureDQN and DDQN.
+PER DDPG with Dueling Q-network is implemented in this experiment. Referencing the Dueling DQN [paper](https://arxiv.org/abs/1511.06581). A detailed description of dueling dqn algorthm is summarized in my [blog](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_9.md).
 
 
 ### Resources
