@@ -40,5 +40,5 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
   - [Double-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-double_dqn
 ) (workable codes implemented, blogs 0% completed)
   - [Prioritized Replay DDQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-Prioritized%20Experience%20Replay%20ddqn) (workable codes implemented, blogs completed)
-  - [Dueling-DQN]() (workable codes implemented, blogs completed)
+  - [Dueling-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-duelingdqn) (workable codes implemented, blogs completed)
 - Policy-based methods
