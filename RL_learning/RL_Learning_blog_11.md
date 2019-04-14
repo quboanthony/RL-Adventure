@@ -1,4 +1,4 @@
-# Deep Reinforcement learning Learning blog 10 - Rainbow Techiques
+# Deep Reinforcement learning Learning blog 9 - Rainbow Techiques
 ## Intro
 
 [Multi-step boostrap targets](https://arxiv.org/abs/1602.01783)
