@@ -8,6 +8,8 @@ The contents here mainly follow the roadmap of Udactiy course, and also include 
 
 Other good references are:
 
+[Andrej Karpathy blog](karpathy.github.io/2016/05/31/rl/)
+
 [Pinard's blog (in Chinese)](https://www.cnblogs.com/pinard/category/1254674.html)
 
 [icml deep_rl_tutorial](https://icml.cc/2016/tutorials/deep_rl_tutorial.pdf)
