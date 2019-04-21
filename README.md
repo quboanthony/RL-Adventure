@@ -36,7 +36,7 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
   - [Temporal-Difference methods](https://github.com/quboanthony/RL-Adventure/tree/master/temporal-difference) (workable codes implemented, Blogs 0% completed)
   - RL in Continous Space (Blogs 0% completed)
 - Value-based methods
-  - [Classic DQN with image inputs for learning](https://github.com/quboanthony/RL-Adventure/tree/master/p1_navigation_learning_from_pixels)(improving...)
+  - [Classic DQN with image inputs for learning](https://github.com/quboanthony/RL-Adventure/tree/master/p1_navigation_learning_from_pixels)(workable codes implemented, still tuning for request performance...)
   - [Classic DQN](https://github.com/quboanthony/RL-Adventure/tree/master/p1_navigation) (workable codes implemented, blogs 0% completed)
   - [Double-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-double_dqn
 ) (workable codes implemented, blogs 0% completed)
