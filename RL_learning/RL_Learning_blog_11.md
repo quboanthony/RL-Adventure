@@ -107,14 +107,19 @@ It uses a pre-defined schedule to control how the policy space is explored. The 
 *The name comes from the process of annealing an iron, when the iron gradually cools down to form the best particular structure arrangement resulting in a  hardened metal.*
 
 **Adaptive Noise**
+
 ![alt text](fig_blog_11/Adaptive_Noise.png "Adaptive Noise")
+
 At the beginning, adaptive noise is  just like the Simulated Annealing, we reduce the random search radius (reducing or decaying the variance of the Gaussian noise we add) for generating the next policy. However, when we do not find the best policy,  we will increase the search radius, and continue exploring from  the current best policy. This tweak makes much less likely to get stuck.
 
 **Cross-Entropy Method**
+
 ![alt text](fig_blog_11/cross_entropy_mth.png "cross_entropy_mth")
+
 Cross-Entropy method chooses 10-20% points of the paremters that have the largest value. Instead of only one in the Steepest ascent.
 
 [**Evolution Strategies**](https://openai.com/blog/evolution-strategies/)
+
 Evolution strategies make use of all the stochastic search points and assume that the best policy will be a weighted sum  of all of these.
 
-##Code implementations
+## Code implementations
