@@ -1,8 +1,14 @@
-# Deep Reinforcement learning Learning blog 10 - Rainbow Techiques
+# Deep Reinforcement learning Learning blog 12 - Policy Gradient Method
+
+This blog mainly referenced the Udacity DRLND course.
+
 ## Intro
 
-[Multi-step boostrap targets](https://arxiv.org/abs/1602.01783)
+In the previous blog, we have summarized several policy method in Reinforcement learning. These algorithms directly search  for the optimal object function value with random search in the parameter space and without knowing the gradients or minding the value function.
 
-[Distributional DQN](https://arxiv.org/abs/1707.06887)
+In this blog, we discuss  a subclass of policy-based methods, the policy gradient methods. Policy gradient methods estimate the policy function weights of optimal policy by gradient ascent.
 
-[Noisy DQN](https://arxiv.org/abs/1706.10295)
+##  The big picture
+
+![alt text](fig_blog_12/pg_reinforce.png "pg_reinforce")
+During training, the policy gradient method will iteratively amending 
