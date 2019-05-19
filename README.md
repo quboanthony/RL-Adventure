@@ -26,7 +26,7 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
 
 
 
-## Recent Plan and Progress (up to 2019-05-09)
+## Recent Plan and Progress (up to 2019-05-19)
 
 - Blogs writing (20% completed)
 - [Reinforcement Learning Intro](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_1.md) (blogs 30% completed)
@@ -44,4 +44,6 @@ The main 'Adventure' play ground will be in OpenAI's gym environment.
   - [Dueling-DQN](https://github.com/quboanthony/RL-Adventure/tree/master/dqn-duelingdqn) (workable codes implemented, blogs completed)
 - Policy-based methods
   - [Policy-based and Hill climbing algorthm](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_11.mds)(blogs and workable codes completed)
-  -[Policy Gradients method]()(working on blogs)
+  -[Policy Gradients method](https://github.com/quboanthony/RL-Adventure/blob/master/RL_learning/RL_Learning_blog_12.mds)(Blogs completed)
+
+  -[Proximal  Policy Optimization]()(working on blogs)
