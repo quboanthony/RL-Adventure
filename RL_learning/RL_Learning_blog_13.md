@@ -84,7 +84,7 @@ $$
 
 Let's think about what happens at time-step t. Even before anction is decided, the agent has already received all the rewards up until step $t-1$.  So we can think of that part of the total rewardas  the reward  from the past. The rest is denoted as the future reward.
 $$
-(\overbrace{\cdots+r_{t-1}}^{R^{past}_{t}}\overbrace{+r_{t}+\cdots}^{R^{future}_{t}})
+(\overbrace{\cdots+r_{t_1}}^{R^{past}_{t}}\overbrace{+r_{t}+\cdots}^{R^{future}_{t}})
 $$
 Because we have a Markov process,  the action at  time-step $t$ can  only affect  the future reward, so the past reward  shouldn't be contributing to the policy gradient. So to properly assign credit to the action  $a_t$, we should ignore the past reward. So a better  policy gradient would simply  have the future reward as the coefficient.
 $$
