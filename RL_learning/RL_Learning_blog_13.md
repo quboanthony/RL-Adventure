@@ -93,3 +93,30 @@ $$
 
 ## Notes on Gradient Modification
 It turns out that mathematically, ignoring past rewards might change the gradient for each  specific trajectory, but it doesn't change the averaged  gradient. So even through the gradient is different during training, on average we are still maximizing the average reward. In  fact, the resultant gradient is  less  noisy. So training using future rewards should speed things up.
+
+## Importance Sampling
+In the REINFORCE algorthm, we start with a policy, $\pi_\theta$, then using this policy to generate one or multiple trajectories $(s_t,a_t,r_t)$ to reduce noise. Afterwards, we compute a policy gradient, $g$, and update $\theta'\leftarrow\theta+\alpha g$.
+
+At this point, the trajectories we've just generated are simply thrown away.  If we want to update our policy again, we would need to generate new trjectories once more. using the updated policy.
+
+In fact, we need to compute  the gradient for the current policy, and to do that the trajectories need to be representativeof the current policy.
+
+But we could just reuse  the recycled trajectories to compute gradients, and update the policy, agnain and again.
+
+This is where importance sampling comes in. if we consider the trajectories collected by the old policy $P(\tau;\theta)$. And just by  chance, this trajectory can be collected by another new policy,  with a different probability $P(\tau;\theta')$
+
+If we want to compute the average of some quantity, say $f(\tau)$. We could simply generate trajectories from the new policy, compute $f(\tau)$ and average them. mathematically it looks like
+
+$$
+\Sigma_{\tau} P(\tau;\theta')f(\tau)
+$$
+
+Now we could rearrange this equation, by multiplying and dividing by the same  number, $P(\tau;\theta)$ and rearrange the terms.
+
+$$
+\Sigma_{\tau}\overbrace{P(\tau;\theta)}^{sampling\space under\space old\space policy\space  \pi_{\theta}}\overbrace{\frac{P(\tau;\theta')}{P(\tau;\theta)}}^{re-weighting\space factor} f(\tau)
+$$
+
+written in this  way we can reinterpret the fist part as the coefficient for  sampling under  the old policy, with an extra re-weighting factor,in addition  to just averaging.
+
+Intuitively, this tells us we  can use old trajectories for  computing averages  for new policy,  as long as we add this extra re-weighting factor, that takes  into account how under or over-represented each trajectory is  under  the new policy compared  to the  old  one.
