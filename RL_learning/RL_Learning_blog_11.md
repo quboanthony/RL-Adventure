@@ -13,7 +13,7 @@ This blog mainly  referenced:
 ## Intro
 
 In the previous blogs, we have discussed the value-based method, it has been proved to perform well in certain mission. However, value-based methods also has many disadvantages, and policy-based method may come for rescue.
-
+### Simplicity
 In the reinforcement learning, the ultimate goal of the agent is to learn the optimum policy for certain mission.
 
 As for **value-based methods**, we firstly need to find an estimate of the **Optimal Value Function $q_*$**. In practice, this value function is usually in tabular form which the states are rows and actions are columns. The agent will decide the action in states based on the optimal value in this table.
@@ -22,9 +22,81 @@ Obviously, this tabular approach will fail if we have much larger state spaces, 
 
 ![alt text](fig_blog_11/value_based_mths.png "value_based_mths")
 
-However, in both the approaches, we need to firstly estimate the value function then to have the optimal policy. Also, the policy based on the value function is deterministic and sometimes we want a stochastic policy. If we would like the directly estimate the optimal policy, that is where the **Policy-Based Methods** comes in.
+However, in both the approaches, we need to firstly estimate the value function then to have the optimal policy. **Policy-Based Methods directly estimate the optimal policy**.
+### Stochastic Policies
+ Also, the policy based on the value function is deterministic and sometimes we want a stochastic policy.
+
+ In value-based method, we learn a deterministic map from state to action
+
+ $$\pi:s\rightarrow a$$
+
+ In policy-bsed methods, we learn the true stochastic policies, which means the conditional probability of action, in condition of current state.
+
+ $$a \sim \pi (s,a)=P[a|s] $$
+
+### Continuous Action Space
+Without the value table for each discrete actions, the policy based method can handle high-dimensional action space or continous actions spaces.
 
 ## Policy Function Approximation
+
+We parameterize our policy function with $\theta$, our goal is to optimize these parameters, in order to find the best policy.
+$$
+a\sim \pi(s,a,\theta)=P[a|s,\theta]
+$$
+#### Linear function with Softmax policy
+One simple approximation function is the linear combination of features. And since we need a stochastic policy, the output of the linear combination needs some transformation.
+
+$$
+f(s,a,\theta)=x(s,a)^{T}\theta \\
+a\sim\pi(s,a,\theta)=\frac{e^{f(s,a,\theta)}}{\Sigma_{a'}e^{f(s,a,\theta)}}
+$$
+This only applies to the discrete action space.
+#### Linear function with Gaussian policy
+When the action space is continous, we transform the output of linear function into a Gaussian distribution in which we can sample actions from,
+$$
+f(s,a,\theta)=x(s,a)^{T}\theta \\
+a\sim \pi(s,a,\theta)=\mathcal{N}(\mu,\sigma^{2}) \\
+\mu=f(s,a,\theta) \\
+\sigma
+$$
+This trick can apply to any functions output some values and turn them into probability that represent a stochastic policy.
+
+#### Objective function
+We also need a objective function that guids the optimization of parameters
+$$
+J(\theta)=E_{\pi}(R(\tau))
+$$
+in which $\tau$ means the trajectory, which you can think of as a complete or partial episode.
+$$
+\tau=S_0,A_0,R_1,S_1,A_1,...
+$$
+The expected value can be computed by sampling over multiple trajectories.
+
+There are mainly 4 methods to represent the objective function:
+- Start State Value (cumulative discounted rewards)
+$$
+J_1(\theta)=E_{\pi}[G_1]=E_\pi[V(s_1)] \\
+G_1=R_1+\gamma R_2 + \gamma^2 R_3 +...
+$$
+- Average State Value (stationary probability)
+$$
+J_v(\theta)=E_\pi[V(s)]=\Sigma_s d(s)V(s) \\
+d(s)=\frac{N(s)}{\Sigma_{s'}N(s'z)}
+$$
+$N(s)$ means the number of occurrences of the state. $\Sigma_{s'}N(s'z)$ means the total number of occurrences of all states.
+
+- Action Values (Average action value)
+$$
+J_q(\theta)=E_\pi[Q(s,a)]=\Sigma_s d(s)\Sigma_a \pi(s,a,\theta) Q(s,a)
+$$
+This approach still keep track of state values or action values.
+
+- Rewards (Average Reward of each time step)
+$$
+J_r(\theta)=E_{\pi}[r]=\Sigma_s d(s)\Sigma_a \pi(s,a,\theta) \mathcal{R}_s^a
+$$
+
+The choices of these approaches depends on the nature of the problem or environment.
 
 With the example of the carpole, we can use the neural network with the states such as 'Cart Position','Cart Velocity', 'Pole Angle' and 'Pole Velocity at Tip' as the input nodes, and the probability of each action as output. And the goal is to maximize the expected return.  The number of the output nodes depends on number of the actions. Since  now  our outputs are probabilities  of each  action, the activation  function could be softmax.
 
@@ -34,6 +106,9 @@ For the continous action space, it is different, the neural network could have o
 
 Many details  of the activation function could  be referenced [here](https://pytorch.org/docs/stable/nn.html#torch.nn.Tanh).
 ## Hill Climbing
+- Do not have to know the objective function.
+- Do not have to know the underlynig policy or it's Gradient
+
 The agent's goal is to maximize expected return $J$. And the parameters of the approximator (NN) is $\theta$. $\theta$ encodes the policy, the policy influencesthe reward, and we sum up the rewards to get the return. If  we write the expected  return with the parameter $\theta$:
 $$
 J(\theta)=\sum_{\tau}P(\tau;\theta)R(\tau)
@@ -234,4 +309,4 @@ The output of the scores are shown in below.
 
 However, by actually watching the agent behave, we can notice some small differences. The SA trained agent likes slowly drifting to one side and the AN trained agent seems more robust and stays still.
 
-It seems the SA method is located in a sub-optimum solution. 
+It seems the SA method is located in a sub-optimum solution.

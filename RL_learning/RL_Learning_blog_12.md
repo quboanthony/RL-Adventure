@@ -6,9 +6,53 @@ This blog mainly referenced the Udacity DRLND course.
 
 In the previous blog, we have summarized several policy method in Reinforcement learning. These algorithms directly search  for the optimal object function value with random search in the parameter space and without knowing the gradients or minding the value function.
 
-In this blog, we discuss  a subclass of policy-based methods, the policy gradient methods. Policy gradient methods estimate the policy function weights of optimal policy by gradient ascent.
+In this blog, we discuss another optimizing approach of policy-based methods, **the policy gradient methods**. Policy gradient methods estimate the policy function weights of optimal policy by gradient ascent.
 
 ##  The big picture
+In the **black-box optimization method, such as Hill climbing**, it does not care what the objective is, or its structure. Therefore it could be
+- easier to fall into the suboptimal area.
+- takes forever to converge.
+
+**The Policy Gradient method** update the parameters in the direction of increasing gradient, and iterate.
+- policy:$\pi$
+- Objective: $J(\theta)$
+- Gradient:$\nabla_\theta J(\theta)$
+- Udpdate: $\theta\leftarrow\theta+\alpha\nabla_\theta J(\theta)$
+
+**It is possible to not find the gradient directly if the underlying policy is complicated.** In this case, you can estimate the gradient using finite differences.
+
+### Finite differences
+For $k\in[1,n]$:
+
+Estimate:
+$$
+\frac{\partial J({\theta})}{\partial\theta_k}\approx \frac{J(\theta+\epsilon u_k)-J(\theta)}{\epsilon}
+$$
+where $\epsilon$ means a tiny step and $u_k$ means unit vector in $k^{th}$ dimension.
+
+Collect all the partial derivatives into a single vector to get the combined derivative.
+$$
+\nabla_\theta J(\theta)=\langle\frac{\partial J({\theta})}{\partial\theta_1}\cdot\frac{\partial J({\theta})}{\partial\theta_2}\cdots\frac{\partial J({\theta})}{\partial\theta_m} \rangle
+$$
+Note that each of these policy evaluations may require at least to one full episode of interaction in the environment. And we are doing one evaluation for every parameter dimension at every iteration. This may take a long time to train (Not efficient!).
+
+### Computing Gradients Analytically
+$$
+J(\theta)=E_{\pi}[R(\tau)] \\
+\nabla_\theta J(\theta)=\nabla_\theta E_\pi [R(\tau)]
+$$
+Give the Analytically gradient of known Expected objective seems hard, but it is turns out a fairly well studied problem.
+
+With the derivation below in the math part, we can have teh policy gradients in form of
+$$
+\nabla_\theta J(\theta)=\nabla_{\theta}E_{\theta}[R(\tau)]=E_{\pi}[\nabla_\theta(\log \pi(s,a,\theta))R(\tau)]
+$$
+where $E_{\pi}$ is the expectation
+$\pi$ is the policy function which we can represent by a neural network.
+$$
+\nabla\theta=\alpha\nabla_\theta(\log\pi(s,a,\theta))R(\tau)
+$$
+### big procedure
 
 ![alt text](fig_blog_12/pg_reinforce.png "pg_reinforce")
 During training, the policy gradient method will iteratively amending the weights of policy, increases the probaility of 'good' actions and decrease the probability of 'bad' actions.
@@ -50,7 +94,7 @@ where $\mathrm{P}(\tau;\theta)$ is the probaility of trajectory $\tau$,  $R(\tau
 
 Here, we are using trajectories instead of episodes. The main reason for this is to consider both episodic and continuing tasks. That is to say, for many episodic  tasks, it makes sense to just the full episode since the rewards only deliver at the end of full episode.
 
-## REINFORCE
+## REINFORCE (Monte Carlo policy gradient)
 REINFORCE is one of the algorithms  to estimate $\max_{\theta} U(\theta)$. It belongs to the **gradient ascent** method.
 
 We learned that for policy  gradient methods, our goal is to  find the values of the weights $\theta$ in the neural network that maximize the expected  return $U$.

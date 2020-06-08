@@ -8,8 +8,25 @@ Some of these  important tweaks lead us to the proximal policy  Optimization (PP
 
 This blog mainly referenced to the Udacity course and the orginal paper of [PPO](https://arxiv.org/abs/1707.06347)
 
+## Constrainted  policy gradient methods
+Sometimes we would like to explore more good policies but we would not like the training process to forget totally the acceptable policy that we already have.
 
-## Beyond Reinforcement
+We can add constraint to our gradient-based algorithms, that differences between two policies at most some threshold $\delta$.
+$$
+J(\theta)=E_{\pi}[R(\tau)] \\
+D(\pi(\cdot,\cdot,\theta),\pi(\cdot,\cdot,\theta'))\leq\delta
+$$
+
+The penalty term
+$$
+J(\theta)=E_{\pi}[R(\tau)]]-\beta D(\pi(\cdot,\cdot,\theta),\pi(\cdot,\cdot,\theta'))
+$$
+One of the measurement to calculate this distribution difference is KL-Divergence
+$$
+D_{KL}(p||q)=\int^{+\infty}_{-\infty}p(x)\log\frac{p(x)}{q(x)}dx
+$$
+
+## PPO (constrainted policy gradient method), beyond Reinforcement (Monte Carlo)
 
 Key ingredients of REINFORCE algorthm:
 
@@ -113,10 +130,15 @@ $$
 
 Now we could rearrange this equation, by multiplying and dividing by the same  number, $P(\tau;\theta)$ and rearrange the terms.
 
-$$
+$$s
 \Sigma_{\tau}\overbrace{P(\tau;\theta)}^{sampling\space under\space old\space policy\space  \pi_{\theta}}\overbrace{\frac{P(\tau;\theta')}{P(\tau;\theta)}}^{re-weighting\space factor} f(\tau)
 $$
 
 written in this  way we can reinterpret the fist part as the coefficient for  sampling under  the old policy, with an extra re-weighting factor,in addition  to just averaging.
 
 Intuitively, this tells us we  can use old trajectories for  computing averages  for new policy,  as long as we add this extra re-weighting factor, that takes  into account how under or over-represented each trajectory is  under  the new policy compared  to the  old  one.
+
+When we take a  closer look at the re-weighting factor.
+$$
+\frac{P(\tau;\theta')}{P(\tau;\theta)}=\frac{\pi_{\theta'}(a_1|s_1)}{}
+$$

@@ -64,3 +64,22 @@ A policy is how the agent take action under time step $t$. It is often defined a
 
 ## Element 3： reward signal
 The agent recieve a reward at
+
+
+## Multi-armed Bandits (active exploration)
+Reinforcement learning *evaluates* the action taken rather than *instructs* by giving correct actions. The *instructive* action is the supervised learning approach, which the correct action is given as correct labels during training.
+
+This leads to the need of active exploration. Most of the early works regards to this subject was done under a simplified setting which is called multi-armed bandits.
+
+### K-armed Bandit Problem
+Imagine you face a situation which only k choices of actions can be made, after each action you recieve a reward from a stationary probability distribution that depends on the action. The objective is to maximize the expected total rewards over some time period.
+
+Each action has a expected or mean reward given. It can be called the *value* of that action.
+$$
+q_*(a)=E[R_t|A_t=a]
+$$
+where $A_t$ is the action taken at time $t$, $R_t$ is the reward received after the action was taken. If we know all about the values of actions, we can trivially solve the k-armed bandit problem: just select the actions with highest values.
+
+Yet in fact we can only *estimate* the value of action at time $t$, the estimation noted as $Q_t(a)$. We can maintain this estimation during training.
+
+When we maintain our estimation, there is always a estimation of value which is the hightest among all the others. If we take the action with the highest estimation, it is call a *greedy* approach. Which means we are **exploiting** our current knowledge of values of actions. Instead, if we choose other actions, we bring uncertainty into our estimations and we are **exploring**. When we
