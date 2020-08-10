@@ -8,7 +8,7 @@ Some of these  important tweaks lead us to the proximal policy  Optimization (PP
 
 This blog mainly referenced to the Udacity course and the orginal paper of [PPO](https://arxiv.org/abs/1707.06347)
 
-## Constrainted  policy gradient methods
+## Constrainted  policy gradient methods (PPO)
 Sometimes we would like to explore more good policies but we would not like the training process to forget totally the acceptable policy that we already have.
 
 We can add constraint to our gradient-based algorithms, that differences between two policies at most some threshold $\delta$.
@@ -142,3 +142,11 @@ When we take a  closer look at the re-weighting factor.
 $$
 \frac{P(\tau;\theta')}{P(\tau;\theta)}=\frac{\pi_{\theta'}(a_1|s_1)}{}
 $$
+
+# KL Divergence as regularization (TRPO and PPO)
+
+
+
+# Clipping Policy Update (PPO-2)
+
+In PPO-2, we replace the KL divergence regulariztion with clipping Policy Update.
