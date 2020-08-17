@@ -109,14 +109,14 @@ g=\Sigma_{t}R^{future}_{t}\nabla_\theta\log\pi_{\theta}(a_{t}|s_{t})
 $$
 
 ## Notes on Gradient Modification
-It turns out that mathematically, ignoring past rewards might change the gradient for each  specific trajectory, but it doesn't change the averaged  gradient. So even through the gradient is different during training, on average we are still maximizing the average reward. In  fact, the resultant gradient is  less  noisy. So training using future rewards should speed things up.
+It turns out that mathematically, ignoring past rewards might change the gradient for each  specific trajectory, but it doesn't change the averaged  gradient. So even though the gradient is different during training, on average we are still maximizing the average reward. In  fact, the resultant gradient is  less  noisy. So training using future rewards should speed things up.
 
 ## Importance Sampling
 In the REINFORCE algorthm, we start with a policy, $\pi_\theta$, then using this policy to generate one or multiple trajectories $(s_t,a_t,r_t)$ to reduce noise. Afterwards, we compute a policy gradient, $g$, and update $\theta'\leftarrow\theta+\alpha g$.
 
-At this point, the trajectories we've just generated are simply thrown away.  If we want to update our policy again, we would need to generate new trjectories once more. using the updated policy.
+At this point, the trajectories we've just generated are simply thrown away.  If we want to update our policy again, we would need to generate new trjectories once more, using the updated policy.
 
-In fact, we need to compute  the gradient for the current policy, and to do that the trajectories need to be representativeof the current policy.
+In fact, we need to compute the gradient for the current policy, and to do that the trajectories need to be representative of the current policy.
 
 But we could just reuse  the recycled trajectories to compute gradients, and update the policy, agnain and again.
 
@@ -138,15 +138,83 @@ written in this  way we can reinterpret the fist part as the coefficient for  sa
 
 Intuitively, this tells us we  can use old trajectories for  computing averages  for new policy,  as long as we add this extra re-weighting factor, that takes  into account how under or over-represented each trajectory is  under  the new policy compared  to the  old  one.
 
+## The re-weighting factor
+
 When we take a  closer look at the re-weighting factor.
 $$
-\frac{P(\tau;\theta')}{P(\tau;\theta)}=\frac{\pi_{\theta'}(a_1|s_1)}{}
+\frac{P(\tau;\theta')}{P(\tau;\theta)}=\frac{\pi_{\theta'}(a_1|s_1)\pi_{\theta'}(a_2|s_2)\pi_{\theta'}(a_3|s_3)\cdots}{\pi_{\theta}(a_1|s_1)\pi_{\theta}(a_2|s_2)\pi_{\theta}(a_3|s_3)\cdots}
 $$
 
+Statistically, each probability here contains a chain of products of each policy at different time-step, as the equation showed above.
+
+If we estimate $P(\tau;\theta')$ and $P(\tau;\theta)$ using this equation without any treatement, there will be some problem.
+
+For instance, when some policy gets quite close to 0, the re-weighting factor can become close to zero or infinity. This will make the re-weighting trick unreliable.
+
+In order to cope with the problem, a trick by introducing a surrogate function was used in PPO.
+
+## The surrogate Function (Proximal Policy)
+
+Let's take a look at our policy gradient again, by re-writing the derivative of the log term, we have:
+
+$$
+g=\frac{P(\tau;\theta')}{P(\tau;\theta)}\sum_{t}\frac{\nabla_{\theta'}\pi_{\theta'}(a_t|s_t)}{\pi_{\theta'}(a_t|s_t)} R_{t}^{future}
+$$
+
+Then, by re-arranging these equations, we replace the $\frac{P(\tau;\theta')}{P(\tau;\theta)}$ term with the chains of interactions.
+
+$$
+g=\sum_{t}\frac{\cdots\pi_{\theta'}(a_t|s_t)\cdots}{\cdots\pi_{\theta}(a_t|s_t)\cdots}\frac{\nabla_{\theta'}\pi_{\theta'}(a_t|s_t)}{\pi_{\theta'}(a_t|s_t)} R_{t}^{future}
+$$
+
+Now, the idea of proximal policy comes in. Here we assume that if the old and the current policy is close enough to each other, we would like to treat all the factors in the "..." as a number very close to 1, and only leave the terms shown as below:
+
+$$
+g=\sum_{t}\frac{\nabla_{\theta'}\pi_{\theta'}(a_t|s_t)}{\pi_{\theta}(a_t|s_t)} R_{t}^{future}
+$$
+
+At last, we approximate the re-weighted factor with the output of the two policies by the same $(a_t,s_t)$.
+
+With this approximated gradient, we can think of it as the gradient of a new object, called the surrogate function
+
+$$
+g=\nabla_{\theta'}L_{sur}(\theta',\theta)
+$$
+
+$$
+L_{sur}(\theta',\theta)=\sum_{t}\frac{\pi_{\theta'}(a_t|s_t)}{\pi_{\theta}(a_t|s_t)} R_{t}^{future}
+$$
+
+therefore, we aim to maximize this surrogate function with the proximal gradient.
+
+Now there left another important issue, if the two distributions of the policy differs too much, the assumptions that we made previously does not valid anymore. Hence there must be some constraints to avoid that from happening. 
+
+To cope with this, one of the solutions is to introduce KL Divergence as regularization.
+
 # KL Divergence as regularization (TRPO and PPO)
+
+In the original papers of TRPO(predecessor of PPO) and PPO, despite all the complex mathmatical derivatioins, they mainly tried to add KL divergence between policies as constraint of optimization.
+
+In PPO, the optimization objective is like this
+$$
+L_{PPO}^{\theta'}(\theta)=L^{\theta'}(\theta)-\beta KL(\theta,\theta')
+$$
+
+in which it makes the KL divergence term as a differentiable regularization term, and this makes the opimization process a bit easier.
+
+In TRPO, it treat the KL divergence as a more general constraint condition, which is mathmatically more precise but very hard to optimize.
+
+$$
+L_{PPO}^{\theta'}(\theta)=L^{\theta'}(\theta)
+$$
+$$
+KL(\theta,\theta')<\delta
+$$
+
+In practice, researchers found that the approach of PPO has very similar results as TRPO, yet the former is relatively much easier to implement. 
 
 
 
 # Clipping Policy Update (PPO-2)
 
-In PPO-2, we replace the KL divergence regulariztion with clipping Policy Update.
+In PPO-2, we replace the KL divergence regularization with clipping Policy Update.
