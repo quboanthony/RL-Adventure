@@ -218,3 +218,14 @@ In practice, researchers found that the approach of PPO has very similar results
 # Clipping Policy Update (PPO-2)
 
 In PPO-2, we replace the KL divergence regularization with clipping Policy Update.
+
+When the policy distribution differs to much, it is highly like that the policy in which you sample your trajectories will lead to cliff jumping effect in the current learning policy. In such case, it could be impossible to jump out of the bad policy plateau.
+
+Hence, an intuitive idea to deal with cliff jumping is to give restrictions to surrogate function.
+
+The formula of clipped surrogate function is 
+$$
+L_{sur}^{clip}(\theta,\theta')=\sum_{t}\min\{ \frac{\pi_{\theta'}}{\pi_{\theta}}R_{t}^{future},clip_{\epsilon}(\frac{\pi_{\theta'}}{\pi_{\theta}})R_{t}^{future}\}
+$$
+
+We want to make sure the two policy $\theta,\theta'$ is similar, which means their ratio is close to 1. Therefore $\epsilon$ usually be choosen as a small number.
