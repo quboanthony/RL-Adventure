@@ -229,3 +229,45 @@ L_{sur}^{clip}(\theta,\theta')=\sum_{t}\min\{ \frac{\pi_{\theta'}}{\pi_{\theta}}
 $$
 
 We want to make sure the two policy $\theta,\theta'$ is similar, which means their ratio is close to 1. Therefore $\epsilon$ usually be choosen as a small number.
+
+```python
+
+def clipped_surrogate(policy, old_probs, states, actions, rewards,
+                      discount = 0.995, epsilon=0.1, beta=0.01):
+
+
+    discounts=discount**np.arange(len(rewards))
+    Reward=np.asarray(rewards)*discounts[:,np.newaxis]
+    
+    Reward_future=Reward[::-1].cumsum(axis=0)[::-1]
+
+    R_mean=Reward_future.mean(axis=1)
+    R_std=Reward_future.std(axis=1)+1e-10
+    
+    reward_normalized=(Reward_future-R_mean[:,np.newaxis])/R_std[:,np.newaxis]
+    
+    
+    
+    actions = torch.tensor(actions, dtype=torch.int8, device=device)
+    old_probs = torch.tensor(old_probs, dtype=torch.float,device=device)
+    rewards=torch.tensor(reward_normalized, dtype=torch.float, device=device)
+
+
+    # convert states to policy (or probability)
+    new_probs = pong_utils.states_to_prob(policy, states)
+    new_probs = torch.where(actions == pong_utils.RIGHT, new_probs, 1.0-new_probs)
+    
+    ratio=new_probs/old_probs
+    clip=torch.clamp(ratio,1-epsilon,1+epsilon)
+
+    
+    # include a regularization term
+    # this steers new_policy towards 0.5
+    # prevents policy to become exactly 0 or 1 helps exploration
+    # add in 1.e-10 to avoid log(0) which gives nan
+    entropy = -(new_probs*torch.log(old_probs+1.e-10)+ \
+        (1.0-new_probs)*torch.log(1.0-old_probs+1.e-10))
+
+    return torch.mean(beta*entropy+torch.min(rewards*ratio,rewards*clip))
+
+```
