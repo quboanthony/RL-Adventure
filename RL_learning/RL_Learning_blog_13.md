@@ -230,6 +230,7 @@ $$
 
 We want to make sure the two policy $\theta,\theta'$ is similar, which means their ratio is close to 1. Therefore $\epsilon$ usually be choosen as a small number.
 
+The whole Clipping surrogate function could be implemented as follows:
 ```python
 
 def clipped_surrogate(policy, old_probs, states, actions, rewards,

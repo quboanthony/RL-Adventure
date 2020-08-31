@@ -78,6 +78,7 @@ Using more true rewards, furtherly reduce the bias and keep the variance under c
   2. **Off-policy**: policy used for interacting with the environment is different than the policy being learned. (e.g. Q-learning, DQN, which try to learn optimum policy with $\epsilon$-greedy exploration)
 
   Off policy method could let agent to learn from all source of different policies, but is known to be **unstable and often diverge** with deep neural networks.
+  
   ![alt text](fig_blog_14/SARSA-Q-learning.png "SARSA-Q-learning")
 
 Combination of On and Off policy learning: [Q-Prop paper](https://arxiv.org/abs/1611.02247)
@@ -87,7 +88,9 @@ Combination of On and Off policy learning: [Q-Prop paper](https://arxiv.org/abs/
 
 ## A2C: Advantage Actor-critic
 A2C is a synchronous implementation of AC.
+
 ![alt text](fig_blog_14/a2c.png "a2c")
+
 A2C is arguably simpler to implement, yet gives the similar result.
 
 A3C is most easily train on a cpu, while A2C is more straightforward to extend to a GPU impliementation
@@ -95,8 +98,10 @@ A3C is most easily train on a cpu, while A2C is more straightforward to extend t
 
 ## GAE:Generalized Advantage estimation
 ### $\lambda$ Return
+
 ![alt text](fig_blog_14/GAE_1.png "GAE")
 ![alt text](fig_blog_14/GAE_2.png "GAE")
+
 when $\lambda=0$, it equals to TD-estimation; if $\lambda=1$, it equals to Monte-Carlo estimation.
 
 [Generalized Advantage estimation](https://arxiv.org/abs/1506.02438) is the method that train critic with $\lambda$ return. In the paper, with the combination of TRPO and $\lambda$ return, the agent could be trained very fast.
@@ -105,15 +110,35 @@ This type of return can be used for any value-based part.
 
 ## DDPG: Deep Deterministic Policy Gradient, Continous Action-space
 
-In the [DDPG paper](https://arxiv.org/abs/1509.02971), they introduced this algorithm as an "Actor-Critic" method. Though, some researchers think DDPG is best classified as a DQN method for continuous action spaces (along with [NAF](https://arxiv.org/abs/1603.00748)). Regardless, DDPG is a very successful method and it's good for you to gain some intuition.
+In the [DDPG paper](https://arxiv.org/abs/1509.02971), they introduced this algorithm as an "Actor-Critic" method. Though, some researchers think DDPG is best classified as a DQN method for continuous action spaces (along with [NAF](https://arxiv.org/abs/1603.00748)). 
 
-The critic of DDPG is used to approximate the maximizer over the Q-values of the next state, and not as a learned baseline.
+Regardless, DDPG is a very successful method and it's good for you to gain some intuition.
 
-Instead, DDPG trains a deterministic state-action approximate maximizer as the actor, to produce a new target value for training the action value function
+in DQN network, when we chose the maximizer action, it is easy since the action space is discret. For example, we may have a action space with "up, down, left, right, jump". However, what if we want to have a continuous action space? Such as "jump 50 centimeters".
 
-It still use replay buffer, and it use the soft updates to the target networks.
+![alt text](fig_blog_14/DDPG_actor_critic.png "DDPG_actor_critic")
+
+DDPG means to provide a solution in this scenario. In DDPG, we use 2 deep neuro networks, we can call one the 'actor' and the other the 'critic'.
+
+The 'actor' of DDPG is here to **approximate the optimal policy deterministically**, noted here as $\mu(s;\theta_{\mu})$. Which means we always want to output the best valued actions for any given state. This is different from the policy-based method where we want to learn a probability distribution over the actions. In DDPG, we would like the believed best action every single time we query the actor network. This is the name **deterministic policy** comes from.
+
+The 'critic' of DDPG is used to approximate the maximizer over the Q-values of the next state, and not as a learned baseline. It learns to evaluate the optimal action value functioin by using the actors best believed action.
+
+Put it in one sentence, DDPG trains a deterministic state-action approximate maximizer as the actor, to produce a new target value for training the action value function of the critic.
+
+DDPG still use replay buffer, and it use the soft updates to the target networks.
+
 
 ### Soft updates to the target networks
 
-In DDPG, both actor and critic consist 2 networks, the regular and the target
-![alt text](fig_blog_14/DDPG_soft_update.png "DDPG_soft_update")
+In DDPG, both actor and critic consist 2 networks, the regular and the target.
+
+
+In the paper, the weights of target network was copied from the whole regular network weights every C time steps. Then the network is fixed until next big update from regular network.
+
+Meanwhile, during the updates of regular network weights, DDPG also uses the **soft update** for the update of target networks: every step, mix in 0.01% of regular network weights with target network weights. Therefore the target network weights are not totally stationary before the 'big update', but alwayes has 0.01% variations with regular network.
+
+In practice, all these update stategies lead to faseter convergence.
+
+This type of update stategy can also be used in other DRL methods, such as DQN.
+
