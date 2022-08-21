@@ -41,7 +41,7 @@ V(S_t)=V(S_t)+\alpha[R_{t+1}+\gamma V(S_{t+1})-V(S_t)]
 $$
 
 ### differences
-- Monte Carlo Methods has large variance since the differences between all the episodes could be huge. But Monte Carlo methods are unbiased, since you are not estimate with estimates, you are only using the true rewards you obtains
+- Monte Carlo Methods has large variance since the differences between all the episodes could be huge. But Monte Carlo methods are unbiased, since you are not estimating with estimations, you are only using the true rewards you obtains.
 
 - TD methods are low variances since you are only compounding a single randomness instead of a full rollout. However, since you are bootstrapping on the next state estimates, and those are not true values. This adding bias to your calculation. The agent will learn faster, but will have more problems converging.
 
